@@ -5,6 +5,7 @@ import { Typography, Box, Switch } from '@material-ui/core';
 import { WEB_SOCKET_ROOT } from '../api';
 import { WebSocketControllerProps, WebSocketFormLoader, WebSocketFormProps, webSocketController } from '../components';
 import { SectionContent, BlockFormControlLabel } from '../components';
+import RgbSlider from './components/RgbSlider';
 
 import { RgbState } from './types';
 
@@ -36,30 +37,11 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
 
   const { data, saveData, setData } = props;
 
-  const classes = useStyles();
-  const [value, setValue] = useState<number | string>(30);
-
   const changeLedOn = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData(
       { led_on: event.target.checked, redValue: 255, greenValue: 255, BlueValue: 255 },
       saveData);
   }
-
-  const handleSliderChange:any = (event:any, newValue:any) => {
-    setValue(newValue);
-  };
-
-  const handleInputChange = (event: any) => {
-    setValue(event.target.value === '' ? '' : Number(event.target.value));
-  };
-
-  const handleBlur = () => {
-    if (value < 0) {
-      setValue(0);
-    } else if (value > 100) {
-      setValue(100);
-    }
-  };
 
   return (
     <ValidatorForm onSubmit={saveData}>
@@ -78,7 +60,10 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
         }
         label="LED State?"
       />
-      
+      <RgbSlider 
+        setDataHandler={setData}
+        saveDataHandler={saveData}
+      />
     </ValidatorForm>
   );
 }
