@@ -7,3 +7,7 @@ export interface LightMqttSettings {
   name: string;
   mqtt_path : string;
 }
+
+export interface RgbState {
+  led_on : boolean;
+}
