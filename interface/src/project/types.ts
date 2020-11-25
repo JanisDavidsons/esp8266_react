@@ -10,4 +10,7 @@ export interface LightMqttSettings {
 
 export interface RgbState {
   led_on : boolean;
+  redValue : number;
+  greenValue : number;
+  BlueValue : number;
 }
