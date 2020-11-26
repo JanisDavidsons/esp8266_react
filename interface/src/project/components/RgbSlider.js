@@ -7,11 +7,35 @@ import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
+        
         width: "100%",
     },
     input: {
         width: 52,
     },
+    thumb: {
+        height: 24,
+        width: 24,
+        backgroundColor: "#fff",
+        border: "2px solid currentColor",
+        marginTop: -8,
+        marginLeft: -12,
+        "&:focus, &:hover, &$active": {
+          boxShadow: "inherit"
+        }
+      },
+      active: {},
+      valueLabel: {
+        left: "calc(-50% + 4px)"
+      },
+      track: {
+        height: 8,
+        borderRadius: 4
+      },
+      rail: {
+        height: 8,
+        borderRadius: 4
+      }
 });
 
 export default ({setDataHandler, saveDataHandler}) => {
@@ -21,16 +45,41 @@ export default ({setDataHandler, saveDataHandler}) => {
     const [green, setGreen] = useState(30);
     const [blue, setBlue] = useState(30);
 
-    const handleSliderChange = (event, newValue) => {
+    const handleRedSlider = (event, newValue) => {
         setRed(newValue)
-        console.log(event.target);
-        // setData(
-        //     { led_on: true, redValue: 255, greenValue: 255, BlueValue: 255 },
-        //     saveData);
+        sendToApi();
     };
 
-    const handleInputChange = event => {
+    const handleGreenSlider = (event, newValue) => {
+        setGreen(newValue)
+        sendToApi();
+    };
+
+    const handleBlueSlider = (event, newValue) => {
+        setBlue(newValue)
+        sendToApi();
+    };
+
+    const handleRedInputChange = event => {
         setRed(event.target.value === '' ? '' : Number(event.target.value));
+        sendToApi();
+    }
+
+    const handleGreenInputChange = event => {
+        setGreen(event.target.value === '' ? '' : Number(event.target.value));
+        sendToApi();
+    }
+
+    const handleBlueInputChange = event => {
+        setBlue(event.target.value === '' ? '' : Number(event.target.value));
+        sendToApi();
+    }
+
+    const sendToApi = () => {
+        console.log("red: ",red,"green: ", green, "blue: " , blue)
+        setDataHandler(
+            { led_on: true, red_value: red, green_value: green, blue_value: blue },
+            saveDataHandler);
     }
 
     const handleBlur = () => {
@@ -43,26 +92,29 @@ export default ({setDataHandler, saveDataHandler}) => {
 
     return (
         <div className={classes.root}>
+
+            {/* Red slider */}
             <Typography id="red-slider" gutterBottom>
                 Red value
             </Typography>
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
                     <Slider
+                        className={classes.track}
                         track='normal'
                         valueLabelDisplay='auto'
                         value={typeof red === 'number' ? red : 0}
                         max={255}
-                        onChange={handleSliderChange}
+                        onChange={handleRedSlider}
                         aria-labelledby="red-slider"
                     />
                 </Grid>
                 <Grid item>
                     <Input
                         className={classes.input}
-                        value={green}
+                        value={red}
                         margin="dense"
-                        onChange={handleInputChange}
+                        onChange={handleRedInputChange}
                         onBlur={handleBlur}
                         inputProps={{
                             step: 1,
@@ -75,54 +127,25 @@ export default ({setDataHandler, saveDataHandler}) => {
                 </Grid>
             </Grid>
 
-            <Typography id="blue-slider" gutterBottom>
-                Blue value
+            {/* Green slider */}
+            <Typography id="green-slider" gutterBottom>
+                Green value
             </Typography>
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
                     <Slider
                         value={typeof green === 'number' ? green : 0}
                         max={255}
-                        onChange={handleSliderChange}
-                        aria-labelledby="blue-slider"
-                    />
-                </Grid>
-                <Grid item>
-                    <Input
-                        className={classes.input}
-                        value={red}
-                        margin="dense"
-                        onChange={handleInputChange}
-                        onBlur={handleBlur}
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 255,
-                            type: 'number',
-                            'aria-labelledby': 'blue-slider',
-                        }}
-                    />
-                </Grid>
-            </Grid>
-
-            <Typography id="input-slider" gutterBottom>
-                Greem value
-            </Typography>
-            <Grid container spacing={2} alignItems="center">
-                <Grid item xs>
-                    <Slider
-                        value={typeof blue === 'number' ? blue : 0}
-                        max={255}
-                        onChange={handleSliderChange}
+                        onChange={handleGreenSlider}
                         aria-labelledby="green-slider"
                     />
                 </Grid>
                 <Grid item>
                     <Input
                         className={classes.input}
-                        value={blue}
+                        value={green}
                         margin="dense"
-                        onChange={handleInputChange}
+                        onChange={handleGreenInputChange}
                         onBlur={handleBlur}
                         inputProps={{
                             step: 1,
@@ -130,6 +153,37 @@ export default ({setDataHandler, saveDataHandler}) => {
                             max: 255,
                             type: 'number',
                             'aria-labelledby': 'green-slider',
+                        }}
+                    />
+                </Grid>
+            </Grid>
+
+            {/* blue sider */}
+            <Typography id="input-slider" gutterBottom>
+                Blue value
+            </Typography>
+            <Grid container spacing={2} alignItems="center">
+                <Grid item xs>
+                    <Slider
+                        value={typeof blue === 'number' ? blue : 0}
+                        max={255}
+                        onChange={handleBlueSlider}
+                        aria-labelledby="blue-slider"
+                    />
+                </Grid>
+                <Grid item>
+                    <Input
+                        className={classes.input}
+                        value={blue}
+                        margin="dense"
+                        onChange={handleBlueInputChange}
+                        onBlur={handleBlur}
+                        inputProps={{
+                            step: 1,
+                            min: 0,
+                            max: 255,
+                            type: 'number',
+                            'aria-labelledby': 'blue-slider',
                         }}
                     />
                 </Grid>

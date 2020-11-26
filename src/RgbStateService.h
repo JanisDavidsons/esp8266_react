@@ -8,6 +8,9 @@
 #define PRINT_DELAY 5000
 
 #define DEFAULT_LED_STATE false
+#define DEFAULT_RED_VALUE 255
+#define DEFAULT_GREEN_VALUE 255
+#define DEFAULT_BLUE_VALUE 255
 #define OFF_STATE "OFF"
 #define ON_STATE "ON"
 
@@ -27,20 +30,59 @@
 class RgbState {
  public:
   bool ledOn;
-  uint8_t RedBrightness = 255;
-  uint8_t GreenBrightness = 255;
-  uint8_t BlueBrightness = 255;
+  uint8_t redValue = 255;
+  uint8_t greenValue = 255;
+  uint8_t blueValue = 255;
 
   static void read(RgbState& settings, JsonObject& root) {
+    Serial.println("read function called");
     root["led_on"] = settings.ledOn;
+    root["red_value"] = settings.redValue;
+    root["green_value"] = settings.greenValue;
+    root["blue_value"] = settings.blueValue;
   }
 
   static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
+    int redLigth = root["red_value"];
+    int greenLigth = root["green_value"];
+    int blueLigth = root["blue_value"];
+
+    Serial.println("set function called");
+    Serial.print("red: ");
+    Serial.println(redLigth);
+    Serial.print("green: ");
+    Serial.println(greenLigth);
+    Serial.print("blue: ");
+    Serial.println(blueLigth);
+
     boolean newState = root["led_on"] | DEFAULT_LED_STATE;
+    int red = root["red_value"] | DEFAULT_RED_VALUE;
+    int blue = root["green_value"] | DEFAULT_GREEN_VALUE;
+    int green = root["green_value"] | DEFAULT_GREEN_VALUE;
+
     if (lightState.ledOn != newState) {
       lightState.ledOn = newState;
       return StateUpdateResult::CHANGED;
+    }else if (lightState.redValue != red)
+    {
+      Serial.print("red changed : ");
+      Serial.println(red);
+      lightState.redValue = red;
+      return StateUpdateResult::CHANGED;
+    }else if (lightState.greenValue!=green)
+    {
+      Serial.print("blue changed : ");
+      Serial.println(blue);
+      lightState.greenValue = green;
+      return StateUpdateResult::CHANGED;
+    }else if (lightState.blueValue != blue)
+    {
+      Serial.print("green changed : ");
+      Serial.println(green);
+      lightState.blueValue = blue;
+      return StateUpdateResult::CHANGED;
     }
+    
     return StateUpdateResult::UNCHANGED;
   }
 

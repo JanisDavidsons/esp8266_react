@@ -8,6 +8,8 @@ import { SectionContent, BlockFormControlLabel } from '../components';
 import RgbSlider from './components/RgbSlider';
 
 import { RgbState } from './types';
+import { random } from 'lodash';
+import { randomInt } from 'crypto';
 
 export const RGB_SETTINGS_WEBSOCKET_URL = WEB_SOCKET_ROOT + "rgbState";
 
@@ -38,8 +40,14 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
   const { data, saveData, setData } = props;
 
   const changeLedOn = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(Math.floor(Math.random() * (255 + 1)))
     setData(
-      { led_on: event.target.checked, redValue: 255, greenValue: 255, BlueValue: 255 },
+      {
+        led_on: event.target.checked,
+        red_value: Math.floor(Math.random() * (255 + 1)),
+        green_value: Math.floor(Math.random() * (255 + 1)),
+        Blue_value: Math.floor(Math.random() * (255 + 1))
+      },
       saveData);
   }
 
@@ -60,7 +68,7 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
         }
         label="LED State?"
       />
-      <RgbSlider 
+      <RgbSlider
         setDataHandler={setData}
         saveDataHandler={saveData}
       />
