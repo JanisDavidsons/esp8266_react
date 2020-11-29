@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 
 import { Typography, Box, Switch } from '@material-ui/core';
@@ -8,8 +8,6 @@ import { SectionContent, BlockFormControlLabel } from '../components';
 import RgbSlider from './components/RgbSlider';
 
 import { RgbState } from './types';
-import { random } from 'lodash';
-import { randomInt } from 'crypto';
 
 export const RGB_SETTINGS_WEBSOCKET_URL = WEB_SOCKET_ROOT + "rgbState";
 

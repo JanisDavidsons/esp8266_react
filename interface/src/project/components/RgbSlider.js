@@ -7,7 +7,7 @@ import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
-        
+
         width: "100%",
     },
     input: {
@@ -21,24 +21,24 @@ const useStyles = makeStyles({
         marginTop: -8,
         marginLeft: -12,
         "&:focus, &:hover, &$active": {
-          boxShadow: "inherit"
+            boxShadow: "inherit"
         }
-      },
-      active: {},
-      valueLabel: {
+    },
+    active: {},
+    valueLabel: {
         left: "calc(-50% + 4px)"
-      },
-      track: {
+    },
+    track: {
         height: 8,
         borderRadius: 4
-      },
-      rail: {
+    },
+    rail: {
         height: 8,
         borderRadius: 4
-      }
+    }
 });
 
-export default ({setDataHandler, saveDataHandler}) => {
+export default ({ setDataHandler, saveDataHandler }) => {
 
     const classes = useStyles();
     const [red, setRed] = useState(30);
@@ -76,13 +76,32 @@ export default ({setDataHandler, saveDataHandler}) => {
     }
 
     const sendToApi = () => {
-        console.log("red: ",red,"green: ", green, "blue: " , blue)
+        console.log("red: ", red, "green: ", green, "blue: ", blue)
         setDataHandler(
             { led_on: true, red_value: red, green_value: green, blue_value: blue },
             saveDataHandler);
     }
 
-    const handleBlur = () => {
+    const handleBlur = (color) => {
+        switch (color) {
+            case "red":
+                if (red < 0) {
+                    setRed(0);
+                } else if (red > 255) setRed(255);
+                break;
+            case "green":
+                if (green < 0) {
+                    setGreen(0);
+                } else if (green > 255) setGreen(255);
+                break;
+            case "blue":
+                if (blue < 0) {
+                    setBlue(0);
+                } else if (blue > 255) setBlue(255);
+                break;
+            default:
+                break;
+        }
         if (red < 0) {
             setRed(0);
         } else if (red > 255) {
@@ -115,7 +134,7 @@ export default ({setDataHandler, saveDataHandler}) => {
                         value={red}
                         margin="dense"
                         onChange={handleRedInputChange}
-                        onBlur={handleBlur}
+                        onBlur={handleBlur("red")}
                         inputProps={{
                             step: 1,
                             min: 0,
@@ -134,6 +153,9 @@ export default ({setDataHandler, saveDataHandler}) => {
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
                     <Slider
+                        className={classes.track}
+                        track='normal'
+                        valueLabelDisplay='auto'
                         value={typeof green === 'number' ? green : 0}
                         max={255}
                         onChange={handleGreenSlider}
@@ -146,7 +168,7 @@ export default ({setDataHandler, saveDataHandler}) => {
                         value={green}
                         margin="dense"
                         onChange={handleGreenInputChange}
-                        onBlur={handleBlur}
+                        onBlur={handleBlur("green")}
                         inputProps={{
                             step: 1,
                             min: 0,
@@ -165,6 +187,9 @@ export default ({setDataHandler, saveDataHandler}) => {
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
                     <Slider
+                        className={classes.track}
+                        track='normal'
+                        valueLabelDisplay='auto'
                         value={typeof blue === 'number' ? blue : 0}
                         max={255}
                         onChange={handleBlueSlider}
@@ -177,7 +202,7 @@ export default ({setDataHandler, saveDataHandler}) => {
                         value={blue}
                         margin="dense"
                         onChange={handleBlueInputChange}
-                        onBlur={handleBlur}
+                        onBlur={handleBlur("blue")}
                         inputProps={{
                             step: 1,
                             min: 0,
