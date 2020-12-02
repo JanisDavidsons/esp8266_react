@@ -3,14 +3,15 @@
 
 #include <HttpEndpoint.h>
 #include <WebSocketTxRx.h>
+#include <FastLED.h>
 
 #define LED_PIN 2
 #define PRINT_DELAY 5000
 
 #define DEFAULT_LED_STATE false
 #define DEFAULT_RED_VALUE 255
-#define DEFAULT_GREEN_VALUE 255
-#define DEFAULT_BLUE_VALUE 255
+#define DEFAULT_GREEN_VALUE 210
+#define DEFAULT_BLUE_VALUE 45
 #define OFF_STATE "OFF"
 #define ON_STATE "ON"
 
@@ -22,6 +23,11 @@
 #elif defined(ESP8266)
 #define LED_ON 0x0
 #define LED_OFF 0x1
+
+#define NUM_LEDS 1
+#define CLOCK_PIN 14  // D5
+#define DATA_PIN 12   // D6
+
 #endif
 
 #define RGB_SETTINGS_ENDPOINT_PATH "/rest/rgbState"
@@ -30,12 +36,16 @@
 class RgbState {
  public:
   bool ledOn;
-  uint8_t redValue = 255;
-  uint8_t greenValue = 255;
-  uint8_t blueValue = 255;
+  uint8_t redValue;
+  uint8_t greenValue;
+  uint8_t blueValue;
+  CRGB leds[NUM_LEDS];
+
+  RgbState() {
+    FastLED.addLeds<P9813, DATA_PIN, CLOCK_PIN>(leds, NUM_LEDS);
+  }
 
   static void read(RgbState& settings, JsonObject& root) {
-    Serial.println("read function called");
     root["led_on"] = settings.ledOn;
     root["red_value"] = settings.redValue;
     root["green_value"] = settings.greenValue;
@@ -43,46 +53,30 @@ class RgbState {
   }
 
   static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
-    int redLigth = root["red_value"];
-    int greenLigth = root["green_value"];
-    int blueLigth = root["blue_value"];
-
-    Serial.println("set function called");
-    Serial.print("red: ");
-    Serial.println(redLigth);
-    Serial.print("green: ");
-    Serial.println(greenLigth);
-    Serial.print("blue: ");
-    Serial.println(blueLigth);
-
     boolean newState = root["led_on"] | DEFAULT_LED_STATE;
     int red = root["red_value"] | DEFAULT_RED_VALUE;
-    int blue = root["green_value"] | DEFAULT_GREEN_VALUE;
     int green = root["green_value"] | DEFAULT_GREEN_VALUE;
+    int blue = root["blue_value"] | DEFAULT_BLUE_VALUE;
+    
+    if (red != lightState.redValue || green != lightState.greenValue || blue != lightState.blueValue) {
+      lightState.redValue = red;
+      lightState.greenValue = green;
+      lightState.blueValue = blue;
+      lightState.updateRgbDriver();
+
+      return StateUpdateResult::CHANGED;
+    }
 
     if (lightState.ledOn != newState) {
       lightState.ledOn = newState;
-      return StateUpdateResult::CHANGED;
-    }else if (lightState.redValue != red)
-    {
-      Serial.print("red changed : ");
-      Serial.println(red);
-      lightState.redValue = red;
-      return StateUpdateResult::CHANGED;
-    }else if (lightState.greenValue!=green)
-    {
-      Serial.print("blue changed : ");
-      Serial.println(blue);
-      lightState.greenValue = green;
-      return StateUpdateResult::CHANGED;
-    }else if (lightState.blueValue != blue)
-    {
-      Serial.print("green changed : ");
-      Serial.println(green);
-      lightState.blueValue = blue;
+      if (lightState.ledOn) {
+        lightState.leds[0].setRGB(0, 0, 0);
+        FastLED.show();
+        return StateUpdateResult::CHANGED;
+      }
+      lightState.updateRgbDriver();
       return StateUpdateResult::CHANGED;
     }
-    
     return StateUpdateResult::UNCHANGED;
   }
 
@@ -105,6 +99,11 @@ class RgbState {
       return StateUpdateResult::CHANGED;
     }
     return StateUpdateResult::UNCHANGED;
+  }
+
+  RgbState updateRgbDriver() {
+    leds[0].setRGB(this->redValue, this->greenValue, this->blueValue);
+    FastLED.show();
   }
 };
 

@@ -38,13 +38,12 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
   const { data, saveData, setData } = props;
 
   const changeLedOn = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(Math.floor(Math.random() * (255 + 1)))
     setData(
       {
         led_on: event.target.checked,
-        red_value: Math.floor(Math.random() * (255 + 1)),
-        green_value: Math.floor(Math.random() * (255 + 1)),
-        Blue_value: Math.floor(Math.random() * (255 + 1))
+        red_value: data.red_value,
+        green_value: data.green_value,
+        Blue_value: data.Blue_value
       },
       saveData);
   }
@@ -69,6 +68,7 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
       <RgbSlider
         setDataHandler={setData}
         saveDataHandler={saveData}
+        data={data}
       />
     </ValidatorForm>
   );
