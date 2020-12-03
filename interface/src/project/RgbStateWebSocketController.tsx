@@ -71,7 +71,11 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
         saveDataHandler={saveData}
         data={data}
       />
-      <RgbSettings/>
+      <RgbSettings
+        setDataHandler={setData}
+        saveDataHandler={saveData}
+        data={data}
+      />
     </ValidatorForm>
   );
 }
