@@ -6,6 +6,7 @@ import { WEB_SOCKET_ROOT } from '../api';
 import { WebSocketControllerProps, WebSocketFormLoader, WebSocketFormProps, webSocketController } from '../components';
 import { SectionContent, BlockFormControlLabel } from '../components';
 import RgbSlider from './components/RgbSlider';
+import RgbSettings from './components/RgbSettings';
 
 import { RgbState } from './types';
 
@@ -70,6 +71,7 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
         saveDataHandler={saveData}
         data={data}
       />
+      <RgbSettings/>
     </ValidatorForm>
   );
 }

@@ -57,7 +57,7 @@ class RgbState {
     int red = root["red_value"] | DEFAULT_RED_VALUE;
     int green = root["green_value"] | DEFAULT_GREEN_VALUE;
     int blue = root["blue_value"] | DEFAULT_BLUE_VALUE;
-    
+
     if (red != lightState.redValue || green != lightState.greenValue || blue != lightState.blueValue) {
       lightState.redValue = red;
       lightState.greenValue = green;
@@ -68,13 +68,13 @@ class RgbState {
     }
 
     if (lightState.ledOn != newState) {
-      lightState.ledOn = newState;
       if (lightState.ledOn) {
         lightState.leds[0].setRGB(0, 0, 0);
         FastLED.show();
         return StateUpdateResult::CHANGED;
       }
       lightState.updateRgbDriver();
+      lightState.ledOn = newState;
       return StateUpdateResult::CHANGED;
     }
     return StateUpdateResult::UNCHANGED;

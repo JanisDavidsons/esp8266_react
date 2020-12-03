@@ -6,7 +6,7 @@ class DemoInformation extends Component {
 
   render() {
     return (
-      <SectionContent title='Demo Information' titleGutter>
+      <SectionContent title='Information' titleGutter>
         <Typography variant="body1" paragraph>
           This simple demo project allows you to control the built-in LED.
           It demonstrates how the esp8266-react framework may be extended for your own IoT project.
