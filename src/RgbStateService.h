@@ -68,9 +68,15 @@ class RgbState {
     }
 
     if (lightState.ledOn != newState) {
+      Serial.print("old state : ");
+      Serial.println(lightState.ledOn);
+      Serial.print("new state : ");
+      Serial.println(newState);
+
       if (lightState.ledOn) {
         lightState.leds[0].setRGB(0, 0, 0);
         FastLED.show();
+        lightState.ledOn = newState;
         return StateUpdateResult::CHANGED;
       }
       lightState.updateRgbDriver();
