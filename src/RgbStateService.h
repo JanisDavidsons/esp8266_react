@@ -57,6 +57,15 @@ class RgbState {
     int red = root["red_value"] | DEFAULT_RED_VALUE;
     int green = root["green_value"] | DEFAULT_GREEN_VALUE;
     int blue = root["blue_value"] | DEFAULT_BLUE_VALUE;
+    Serial.println('update called: ');
+    Serial.print('red: ');
+    Serial.println(red);
+    Serial.print('green: ');
+    Serial.println(green);
+    Serial.print('blue: ');
+    Serial.println(blue);
+    Serial.print('on state: ');
+    Serial.println(newState);
 
     if (red != lightState.redValue || green != lightState.greenValue || blue != lightState.blueValue) {
       lightState.redValue = red;

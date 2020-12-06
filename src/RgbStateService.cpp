@@ -36,7 +36,7 @@ void RgbStateService::onConfigUpdated() {
   // Serial.println(_state.greenValue);
   // Serial.print("blue");
   // Serial.println(_state.blueValue);
-  digitalWrite(LED_PIN, _state.ledOn ? LED_ON : LED_OFF);
+  // digitalWrite(LED_PIN, _state.ledOn ? LED_ON : LED_OFF);
 }
 
 void RgbStateService::registerConfig() {

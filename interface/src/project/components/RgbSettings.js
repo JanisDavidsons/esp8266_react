@@ -17,6 +17,7 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
   const [options, setOptions] = useState({
 
     chart: {
+      type: 'spline',
       zoomType: 'x',
       panning: true,
       events: {
@@ -38,9 +39,11 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
         }
       }
     },
-
-    tooltip: {
-      followTouchMove: false
+    navigator: {
+      series: {
+        color: '#FF00FF',
+        lineWidth: 1
+      }
     },
     credits: {
       text: '© Janis Davidsons',
@@ -77,6 +80,12 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
       useUTC: false
     },
 
+    plotOptions: {
+      series: {
+        showInNavigator: true
+      }
+    },
+
     rangeSelector: {
       buttons: [{
         count: 1,
@@ -104,7 +113,10 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
 
     tooltip: {
       split: true,
-      xDateFormat: '%H:%M'
+      xDateFormat: '%H:%M',
+      valueDecimals: 0,
+      followTouchMove: false,
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
       // headerFormat: '',
       // dateTimeLabelFormats: {
       //     day: '%H:%M'
