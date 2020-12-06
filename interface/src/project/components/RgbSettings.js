@@ -57,6 +57,12 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
       min: Date.UTC(2020, 0, 1, 0, 0, 0),
       max: Date.UTC(2020, 0, 2, 0, 0, 0),
       type: 'datetime',
+      title: {
+        text: 'Hours'
+      },
+
+
+
       dateTimeLabelFormats: { hour: '%H:%M' },
       lineWidth: 1,
       dateTimeLabelFormats: {
@@ -65,7 +71,6 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
       title: {
         enabled: false
       }
-      /* categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] */
     },
 
     time: {
@@ -90,11 +95,20 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
     },
 
     title: {
-      text: 'Live random data'
+      text: "RGB day/night cycle"
     },
 
     exporting: {
       enabled: false
+    },
+
+    tooltip: {
+      split: true,
+      xDateFormat: '%H:%M'
+      // headerFormat: '',
+      // dateTimeLabelFormats: {
+      //     day: '%H:%M'
+      // }
     },
 
     series: [
@@ -107,31 +121,60 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
           dragMaxY: 255,
           dragMinY: 0,
         },
+        visible: true,
+        // tooltip: {
+        //   pointFormat: ''
+        // },
 
         data: (function () {
-          // generate an array of random data
-          var data = [],
-            i;
-
-          for (i = Date.UTC(2020, 0, 1, -2, 0, 0); i <= Date.UTC(2020, 0, 2, -2, 0, 0); i += 3600 * 500) {
-
-            console.log(new Date(Date.UTC(2020, 0, 1, -2, 0, 0)).getHours())
-
-            data.push([
-              i,
-              Math.round(Math.random() * 255)
-            ]);
+          var data = []
+          for (let i = Date.UTC(2020, 0, 1, -2, 0, 0); i <= Date.UTC(2020, 0, 2, -2, 0, 0); i += 3600 * 500) {
+            data.push([i, Math.round(Math.random() * 255)]);
           }
 
-          // for (i = -4; i <= 3; i += 1) {
-          //     data.push([
-          //         time + i * 1000 *60 *30 ,
-          //         Math.round(Math.random() * 100)
-          //     ]);
-          // }
           return data;
         }())
-      }]
+      },
+      {
+        name: "Green",
+        color: "green",
+        type: 'spline',
+        dragDrop: {
+          draggableY: true,
+          dragMaxY: 255,
+          dragMinY: 0,
+        },
+
+        data: (function () {
+          var data = []
+
+          for (let i = Date.UTC(2020, 0, 1, -2, 0, 0); i <= Date.UTC(2020, 0, 2, -2, 0, 0); i += 3600 * 500) {
+            data.push([i, Math.round(Math.random() * 255)]);
+          }
+
+          return data;
+        }())
+      },
+      {
+        name: "Blue",
+        color: "blue",
+        type: 'spline',
+        dragDrop: {
+          draggableY: true,
+          dragMaxY: 255,
+          dragMinY: 0,
+        },
+
+        data: (function () {
+          var data = []
+          for (let i = Date.UTC(2020, 0, 1, -2, 0, 0); i <= Date.UTC(2020, 0, 2, -2, 0, 0); i += 3600 * 500) {
+            data.push([i, Math.round(Math.random() * 255)]);
+          }
+
+          return data;
+        }())
+      }
+    ]
 
     // chart: {
     //   type: 'spline',
