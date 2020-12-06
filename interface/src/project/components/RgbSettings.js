@@ -46,6 +46,7 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
       max: Date.UTC(2020, 0, 2, 0, 0, 0),
       type: 'datetime',
       tickPositioner: function () {
+
         var info = this.tickPositions.info;
         var positions = [];
         for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
@@ -70,7 +71,6 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
       }
     },
 
-
     series: [
       {
         name: "Red",
@@ -78,23 +78,18 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
         dragDrop: {
           draggableY: true,
           dragMaxY: 255,
-          dragMinY:0
+          dragMinY: 0
         },
-        data: [
-          {
-            y: 0,
-            x: Date.UTC(2020, 0, 1, 9, 0, 0),
-          },
-          {
-            y: 1,
-            x: Date.UTC(2020, 0, 1, 10, 0, 0),
-          },
-          {
-            y: 3,
-            x: Date.UTC(2020, 0, 1, 11, 0, 0),
-          },
-
-        ]
+        data: (function () {
+          var positions = [];
+          for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
+            positions.push({
+              y: 46,
+              x: i,
+            });
+          }
+          return positions;
+        }())
       },
       {
         name: "Green",
@@ -102,23 +97,18 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
         dragDrop: {
           draggableY: false,
           dragMaxY: 255,
-          dragMinY:0
+          dragMinY: 0
         },
-        data: [
-          {
-            y: 5,
-            x: Date.UTC(2020, 0, 1, 9, 0, 0),
-          },
-          {
-            y: 156,
-            x: Date.UTC(2020, 0, 1, 10, 0, 0),
-          },
-          {
-            y: 33,
-            x: Date.UTC(2020, 0, 1, 11, 0, 0),
-          },
-
-        ]
+        data: (function () {
+          var positions = [];
+          for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
+            positions.push({
+              y: 146,
+              x: i,
+            });
+          }
+          return positions;
+        }())
       },
       {
         name: "Blue",
@@ -126,23 +116,18 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
         dragDrop: {
           draggableY: false,
           dragMaxY: 255,
-          dragMinY:0
+          dragMinY: 0
         },
-        data: [
-          {
-            y: 46,
-            x: Date.UTC(2020, 0, 1, 9, 0, 0),
-          },
-          {
-            y: 23,
-            x: Date.UTC(2020, 0, 1, 10, 0, 0),
-          },
-          {
-            y: 3,
-            x: Date.UTC(2020, 0, 1, 11, 0, 0),
-          },
-
-        ]
+        data: (function () {
+          var positions = [];
+          for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
+            positions.push({
+              y: 83,
+              x: i,
+            });
+          }
+          return positions;
+        }())
       },
     ]
   })
