@@ -1,6 +1,6 @@
 #include <RgbStateService.h>
 
-RgbStateService::RgbStateService(AsyncWebServer* server,SecurityManager* securityManager) :
+RgbStateService::RgbStateService(AsyncWebServer* server, SecurityManager* securityManager, FS* fs) :
     _httpEndpoint(RgbState::read,
                   RgbState::update,
                   this,
@@ -14,7 +14,12 @@ RgbStateService::RgbStateService(AsyncWebServer* server,SecurityManager* securit
                server,
                RGB_SETTINGS_SOCKET_PATH,
                securityManager,
-               AuthenticationPredicates::IS_AUTHENTICATED) {
+               AuthenticationPredicates::IS_AUTHENTICATED),
+    _fsPersistence(RgbState::read, 
+                   RgbState::update, 
+                   this, 
+                   fs, 
+                   "/config/RgbState.json") {
   // configure led to be output
   pinMode(LED_PIN, OUTPUT);
 
