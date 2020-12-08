@@ -29,14 +29,6 @@ void RgbStateService::begin() {
 
 void RgbStateService::onConfigUpdated() {
   Serial.println("onConfigUpdated called ..");
-  // Serial.println(_state.ledOn);
-  // Serial.print("red");
-  // Serial.println(_state.redValue);
-  // Serial.print("green");
-  // Serial.println(_state.greenValue);
-  // Serial.print("blue");
-  // Serial.println(_state.blueValue);
-  // digitalWrite(LED_PIN, _state.ledOn ? LED_ON : LED_OFF);
 }
 
 void RgbStateService::registerConfig() {

@@ -41,6 +41,7 @@ class RgbState {
   uint8_t blueValue;
   CRGB leds[NUM_LEDS];
 
+  // Class constructor
   RgbState() {
     FastLED.addLeds<P9813, DATA_PIN, CLOCK_PIN>(leds, NUM_LEDS);
   }
@@ -57,14 +58,15 @@ class RgbState {
     int red = root["red_value"] | DEFAULT_RED_VALUE;
     int green = root["green_value"] | DEFAULT_GREEN_VALUE;
     int blue = root["blue_value"] | DEFAULT_BLUE_VALUE;
-    Serial.println('update called: ');
-    Serial.print('red: ');
-    Serial.println(red);
-    Serial.print('green: ');
-    Serial.println(green);
-    Serial.print('blue: ');
-    Serial.println(blue);
-    Serial.print('on state: ');
+
+    Serial.print("update called: ");
+    Serial.print("red: ");
+    Serial.print(red);
+    Serial.print("green: ");
+    Serial.print(green);
+    Serial.print("blue: ");
+    Serial.print(blue);
+    Serial.print("on state: ");
     Serial.println(newState);
 
     if (red != lightState.redValue || green != lightState.greenValue || blue != lightState.blueValue) {
@@ -77,11 +79,6 @@ class RgbState {
     }
 
     if (lightState.ledOn != newState) {
-      Serial.print("old state : ");
-      Serial.println(lightState.ledOn);
-      Serial.print("new state : ");
-      Serial.println(newState);
-
       if (lightState.ledOn) {
         lightState.leds[0].setRGB(0, 0, 0);
         FastLED.show();
@@ -89,27 +86,6 @@ class RgbState {
         return StateUpdateResult::CHANGED;
       }
       lightState.updateRgbDriver();
-      lightState.ledOn = newState;
-      return StateUpdateResult::CHANGED;
-    }
-    return StateUpdateResult::UNCHANGED;
-  }
-
-  static void haRead(RgbState& settings, JsonObject& root) {
-    root["state"] = settings.ledOn ? ON_STATE : OFF_STATE;
-  }
-
-  static StateUpdateResult haUpdate(JsonObject& root, RgbState& lightState) {
-    String state = root["state"];
-    // parse new led state
-    boolean newState = false;
-    if (state.equals(ON_STATE)) {
-      newState = true;
-    } else if (!state.equals(OFF_STATE)) {
-      return StateUpdateResult::ERROR;
-    }
-    // change the new state, if required
-    if (lightState.ledOn != newState) {
       lightState.ledOn = newState;
       return StateUpdateResult::CHANGED;
     }

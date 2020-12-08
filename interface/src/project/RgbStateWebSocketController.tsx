@@ -44,7 +44,7 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
         led_on: event.target.checked,
         red_value: data.red_value,
         green_value: data.green_value,
-        Blue_value: data.Blue_value
+        blue_value: data.blue_value
       },
       saveData);
   }
