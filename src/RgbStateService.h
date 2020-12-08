@@ -3,6 +3,8 @@
 
 #include <HttpEndpoint.h>
 #include <WebSocketTxRx.h>
+#include <FSPersistence.h>
+#include <FastLED.h>
 
 #define LED_PIN 2
 #define PRINT_DELAY 5000
@@ -68,12 +70,14 @@ class RgbState {
 
 class RgbStateService : public StatefulService<RgbState> {
  public:
-  RgbStateService(AsyncWebServer* server, SecurityManager* securityManager);
+  RgbStateService(AsyncWebServer* server, SecurityManager* securityManager, FS* fs);
+
   void begin();
 
  private:
   HttpEndpoint<RgbState> _httpEndpoint;
   WebSocketTxRx<RgbState> _webSocket;
+  FSPersistence<RgbState> _fsPersistence;
 
   void registerConfig();
   void onConfigUpdated();

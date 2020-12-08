@@ -6,15 +6,11 @@
 AsyncWebServer server(80);
 ESP8266React esp8266React(&server);
 
-// LightMqttSettingsService lightMqttSettingsService =
-//     LightMqttSettingsService(&server, esp8266React.getFS(), esp8266React.getSecurityManager());
+RgbStateService rgbStateService = RgbStateService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
 
-// LightStateService lightStateService = LightStateService(&server,
-//                                                         esp8266React.getSecurityManager(),
-//                                                         esp8266React.getMqttClient(),
-//                                                         &lightMqttSettingsService);
-
-RgbStateService rgbStateService = RgbStateService(&server, esp8266React.getSecurityManager());
+// update_handler_id_t updateHandler = rgbStateService.addUpdateHandler([&](const String& originId) {
+//   Serial.print("The light's state has been updated by: ");
+//   Serial.println(originId);
 
 
 void setup() {
