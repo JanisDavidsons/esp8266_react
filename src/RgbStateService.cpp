@@ -1,6 +1,6 @@
 #include <RgbStateService.h>
 
-RgbStateService::RgbStateService(AsyncWebServer* server,SecurityManager* securityManager) :
+RgbStateService::RgbStateService(AsyncWebServer* server, SecurityManager* securityManager) :
     _httpEndpoint(RgbState::read,
                   RgbState::update,
                   this,
@@ -28,11 +28,10 @@ void RgbStateService::begin() {
 }
 
 void RgbStateService::onConfigUpdated() {
-  digitalWrite(LED_PIN, _state.ledOn ? LED_ON : LED_OFF);
+  Serial.println("onConfigUpdated called ..");
 }
 
 void RgbStateService::registerConfig() {
-  
   String configTopic;
   String subTopic;
   String pubTopic;
