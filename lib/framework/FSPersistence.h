@@ -24,6 +24,7 @@ class FSPersistence {
   }
 
   void readFromFS() {
+    Serial.println("FS read called..");
     File settingsFile = _fs->open(_filePath, "r");
 
     if (settingsFile) {
@@ -57,7 +58,14 @@ class FSPersistence {
       return false;
     }
 
+    char buffer[1000];
+
+    Serial.println("FS write called");
+    serializeJsonPretty(jsonDocument, buffer);
+    Serial.println(buffer);
+
     // serialize the data to the file
+    
     serializeJson(jsonDocument, settingsFile);
     settingsFile.close();
     return true;

@@ -28,12 +28,13 @@ RgbStateService::RgbStateService(AsyncWebServer* server, SecurityManager* securi
 }
 
 void RgbStateService::begin() {
-  _state.ledOn = DEFAULT_LED_STATE;
   onConfigUpdated();
 }
 
 void RgbStateService::onConfigUpdated() {
   Serial.println("onConfigUpdated called ..");
+  _fsPersistence.readFromFS();
+
 }
 
 void RgbStateService::registerConfig() {

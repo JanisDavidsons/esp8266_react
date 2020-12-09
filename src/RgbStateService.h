@@ -9,7 +9,7 @@
 #define LED_PIN 2
 #define PRINT_DELAY 5000
 
-#define DEFAULT_LED_STATE false
+#define DEFAULT_LED_STATE true
 #define DEFAULT_RED_VALUE 255
 #define DEFAULT_GREEN_VALUE 210
 #define DEFAULT_BLUE_VALUE 45
@@ -47,28 +47,20 @@ class RgbState {
     FastLED.addLeds<P9813, DATA_PIN, CLOCK_PIN>(leds, NUM_LEDS);
   }
 
-  static void read(RgbState& settings, JsonObject& root, FS& fileSystem) {
+  static void read(RgbState& settings, JsonObject& root) {
+    Serial.println("RgbStateService update called..");
     root["led_on"] = settings.ledOn;
     root["red_value"] = settings.redValue;
     root["green_value"] = settings.greenValue;
     root["blue_value"] = settings.blueValue;
+    settings.updateRgbDriver();
   }
 
-  static StateUpdateResult update(JsonObject& root, RgbState& lightState, FS& fileSystem) {
+  static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
     boolean newState = root["led_on"] | DEFAULT_LED_STATE;
     int red = root["red_value"] | DEFAULT_RED_VALUE;
     int green = root["green_value"] | DEFAULT_GREEN_VALUE;
     int blue = root["blue_value"] | DEFAULT_BLUE_VALUE;
-
-    Serial.print("update called: ");
-    Serial.print("red: ");
-    Serial.print(red);
-    Serial.print("green: ");
-    Serial.print(green);
-    Serial.print("blue: ");
-    Serial.print(blue);
-    Serial.print("on state: ");
-    Serial.println(newState);
 
     if (red != lightState.redValue || green != lightState.greenValue || blue != lightState.blueValue) {
       lightState.redValue = red;
