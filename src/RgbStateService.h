@@ -33,33 +33,12 @@ class RgbState {
   uint8_t GreenBrightness = 255;
   uint8_t BlueBrightness = 255;
 
-  static void read(RgbState& settings, JsonObject& root) {
+  static void read(RgbState& settings, JsonObject& root, FS& fileSystem) {
     root["led_on"] = settings.ledOn;
   }
 
-  static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
+  static StateUpdateResult update(JsonObject& root, RgbState& lightState, FS& fileSystem) {
     boolean newState = root["led_on"] | DEFAULT_LED_STATE;
-    if (lightState.ledOn != newState) {
-      lightState.ledOn = newState;
-      return StateUpdateResult::CHANGED;
-    }
-    return StateUpdateResult::UNCHANGED;
-  }
-
-  static void haRead(RgbState& settings, JsonObject& root) {
-    root["state"] = settings.ledOn ? ON_STATE : OFF_STATE;
-  }
-
-  static StateUpdateResult haUpdate(JsonObject& root, RgbState& lightState) {
-    String state = root["state"];
-    // parse new led state
-    boolean newState = false;
-    if (state.equals(ON_STATE)) {
-      newState = true;
-    } else if (!state.equals(OFF_STATE)) {
-      return StateUpdateResult::ERROR;
-    }
-    // change the new state, if required
     if (lightState.ledOn != newState) {
       lightState.ledOn = newState;
       return StateUpdateResult::CHANGED;
