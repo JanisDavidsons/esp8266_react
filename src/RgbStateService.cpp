@@ -33,11 +33,10 @@ void RgbStateService::begin() {
 }
 
 void RgbStateService::onConfigUpdated() {
-  digitalWrite(LED_PIN, _state.ledOn ? LED_ON : LED_OFF);
+  Serial.println("onConfigUpdated called ..");
 }
 
 void RgbStateService::registerConfig() {
-  
   String configTopic;
   String subTopic;
   String pubTopic;

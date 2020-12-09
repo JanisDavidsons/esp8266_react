@@ -10,6 +10,9 @@
 #define PRINT_DELAY 5000
 
 #define DEFAULT_LED_STATE false
+#define DEFAULT_RED_VALUE 255
+#define DEFAULT_GREEN_VALUE 210
+#define DEFAULT_BLUE_VALUE 45
 #define OFF_STATE "OFF"
 #define ON_STATE "ON"
 
@@ -21,6 +24,11 @@
 #elif defined(ESP8266)
 #define LED_ON 0x0
 #define LED_OFF 0x1
+
+#define NUM_LEDS 1
+#define CLOCK_PIN 14  // D5
+#define DATA_PIN 12   // D6
+
 #endif
 
 #define RGB_SETTINGS_ENDPOINT_PATH "/rest/rgbState"
@@ -29,21 +37,65 @@
 class RgbState {
  public:
   bool ledOn;
-  uint8_t RedBrightness = 255;
-  uint8_t GreenBrightness = 255;
-  uint8_t BlueBrightness = 255;
+  uint8_t redValue;
+  uint8_t greenValue;
+  uint8_t blueValue;
+  CRGB leds[NUM_LEDS];
+
+  // Class constructor
+  RgbState() {
+    FastLED.addLeds<P9813, DATA_PIN, CLOCK_PIN>(leds, NUM_LEDS);
+  }
 
   static void read(RgbState& settings, JsonObject& root, FS& fileSystem) {
     root["led_on"] = settings.ledOn;
+    root["red_value"] = settings.redValue;
+    root["green_value"] = settings.greenValue;
+    root["blue_value"] = settings.blueValue;
   }
 
   static StateUpdateResult update(JsonObject& root, RgbState& lightState, FS& fileSystem) {
     boolean newState = root["led_on"] | DEFAULT_LED_STATE;
+    int red = root["red_value"] | DEFAULT_RED_VALUE;
+    int green = root["green_value"] | DEFAULT_GREEN_VALUE;
+    int blue = root["blue_value"] | DEFAULT_BLUE_VALUE;
+
+    Serial.print("update called: ");
+    Serial.print("red: ");
+    Serial.print(red);
+    Serial.print("green: ");
+    Serial.print(green);
+    Serial.print("blue: ");
+    Serial.print(blue);
+    Serial.print("on state: ");
+    Serial.println(newState);
+
+    if (red != lightState.redValue || green != lightState.greenValue || blue != lightState.blueValue) {
+      lightState.redValue = red;
+      lightState.greenValue = green;
+      lightState.blueValue = blue;
+      lightState.updateRgbDriver();
+
+      return StateUpdateResult::CHANGED;
+    }
+
     if (lightState.ledOn != newState) {
+      if (lightState.ledOn) {
+        lightState.leds[0].setRGB(0, 0, 0);
+        FastLED.show();
+        lightState.ledOn = newState;
+        return StateUpdateResult::CHANGED;
+      }
+      lightState.updateRgbDriver();
       lightState.ledOn = newState;
       return StateUpdateResult::CHANGED;
     }
     return StateUpdateResult::UNCHANGED;
+  }
+
+  RgbState updateRgbDriver() {
+    leds[0].setRGB(this->redValue, this->greenValue, this->blueValue);
+    FastLED.show();
   }
 };
 
