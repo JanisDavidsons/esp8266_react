@@ -48,12 +48,11 @@ class RgbState {
   }
 
   static void read(RgbState& settings, JsonObject& root) {
-    Serial.println("RgbStateService update called..");
+    Serial.println("RgbStateService read called..");
     root["led_on"] = settings.ledOn;
     root["red_value"] = settings.redValue;
     root["green_value"] = settings.greenValue;
     root["blue_value"] = settings.blueValue;
-    settings.updateRgbDriver();
   }
 
   static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
@@ -73,8 +72,7 @@ class RgbState {
 
     if (lightState.ledOn != newState) {
       if (lightState.ledOn) {
-        lightState.leds[0].setRGB(0, 0, 0);
-        FastLED.show();
+        lightState.updateRgbDriver(true);
         lightState.ledOn = newState;
         return StateUpdateResult::CHANGED;
       }
@@ -85,7 +83,12 @@ class RgbState {
     return StateUpdateResult::UNCHANGED;
   }
 
-  RgbState updateRgbDriver() {
+  void updateRgbDriver(bool turnOff = false) {
+    if (turnOff) {
+        leds[0].fadeToBlackBy(255);
+        FastLED.show();
+      return;
+    }
     leds[0].setRGB(this->redValue, this->greenValue, this->blueValue);
     FastLED.show();
   }

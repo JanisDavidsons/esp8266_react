@@ -19,23 +19,9 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
     chart: {
       type: 'spline',
       zoomType: 'x',
-      panning: true,
+      // panning: true,
       events: {
         load: function () {
-          // this.xAxis[0].setExtremes(Date.UTC(2020, 0, 1, 9, 0, 0), Date.UTC(2020, 0, 1, 22, 0, 0));
-
-          // set up the updating of the chart each second
-          // var series = this.series[0];
-
-          // for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
-
-          //   series.addPoint([Date(i), 100], true, true);
-          // }
-
-          // var x = (new Date()).getTime(), // current time
-          //     y = Math.round(Math.random() * 100);
-          // series.addPoint([x, y], true, true);
-
         }
       }
     },
@@ -117,10 +103,6 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
       valueDecimals: 0,
       followTouchMove: false,
       pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-      // headerFormat: '',
-      // dateTimeLabelFormats: {
-      //     day: '%H:%M'
-      // }
     },
 
     series: [
@@ -134,9 +116,6 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
           dragMinY: 0,
         },
         visible: true,
-        // tooltip: {
-        //   pointFormat: ''
-        // },
 
         data: (function () {
           var data = []
@@ -187,124 +166,10 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
         }())
       }
     ]
-
-    // chart: {
-    //   type: 'spline',
-    //   zoomType: 'x',
-    //   panning: true,
-    //   panKey: 'shift',
-    //   events: {
-    //     load: function () {
-    //       this.xAxis[0].setExtremes(Date.UTC(2020, 0, 1, 9, 0, 0), Date.UTC(2020, 0, 1, 22, 0, 0));
-    //     }
-    //   }
-    // },
-
-    // tooltip: {
-    //   followTouchMove: false
-    // },
-    // credits: {
-    //   text: '© Janis Davidsons',
-    //   href: ''
-    // },
-    // yAxis: {
-    //   dragMaxY: 255,
-
-    //   min: 0,
-    //   max: 255
-    // },
-    // xAxis: {
-    //   min: Date.UTC(2020, 0, 1, 0, 0, 0),
-    //   max: Date.UTC(2020, 0, 2, 0, 0, 0),
-    //   type: 'datetime',
-    //   tickPositioner: function () {
-
-    //     var info = this.tickPositions.info;
-    //     var positions = [];
-    //     for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
-    //       positions.push(i);
-    //     }
-    //     positions.info = info;
-    //     return positions;
-    //   },
-    //   lineWidth: 1,
-    //   dateTimeLabelFormats: {
-    //     day: '%H:%M'
-    //   },
-    //   title: {
-    //     enabled: false
-    //   },
-    //   labels: {
-    //     rotation: -45,
-    //     style: {
-    //       fontSize: '13px',
-    //       fontFamily: 'Verdana, sans-serif'
-    //     }
-    //   }
-    // },
-
-    // series: [
-    //   {
-    //     name: "Red",
-    //     color: "red",
-    //     dragDrop: {
-    //       draggableY: true,
-    //       dragMaxY: 255,
-    //       dragMinY: 0
-    //     },
-    //     data: (function () {
-    //       var positions = [];
-    //       for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
-    //         positions.push({
-    //           y: 46,
-    //           x: i,
-    //         });
-    //       }
-    //       return positions;
-    //     }())
-    //   },
-    //   {
-    //     name: "Green",
-    //     color: "green",
-    //     dragDrop: {
-    //       draggableY: false,
-    //       dragMaxY: 255,
-    //       dragMinY: 0
-    //     },
-    //   data: (function () {
-    //     var positions = [];
-    //     for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
-    //       positions.push({
-    //         y: 146,
-    //         x: i,
-    //       });
-    //     }
-    //     return positions;
-    //   }())
-    // },
-    //   {
-    //     name: "Blue",
-    //     color: "blue",
-    //     dragDrop: {
-    //       draggableY: false,
-    //       dragMaxY: 255,
-    //       dragMinY: 0
-    //     },
-    //     data: (function () {
-    //       var positions = [];
-    //       for (let i = Date.UTC(2020, 0, 1, 0, 0, 0); i <= Date.UTC(2020, 0, 2, 0, 0, 0); i += 3600 * 500) {
-    //         positions.push({
-    //           y: 83,
-    //           x: i,
-    //         });
-    //       }
-    //       return positions;
-    //     }())
-    //   },
-    // ]
   })
 
   const handleSubmit = () => {
+    setDataHandler(options.series, saveDataHandler)
     console.log('rgb setting: ', options.series[0].data)
   }
 
@@ -365,6 +230,3 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
     </>
   );
 }
-// export default RgbSettings;
-
-// render(<App />, document.getElementById("root"));

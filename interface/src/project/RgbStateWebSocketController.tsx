@@ -6,7 +6,6 @@ import { WEB_SOCKET_ROOT } from '../api';
 import { WebSocketControllerProps, WebSocketFormLoader, WebSocketFormProps, webSocketController } from '../components';
 import { SectionContent, BlockFormControlLabel } from '../components';
 import RgbSlider from './components/RgbSlider';
-import RgbSettings from './components/RgbSettings';
 
 import { RgbState } from './types';
 
@@ -48,7 +47,7 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
       },
       saveData);
   }
-
+  console.log(data);
   return (
     <ValidatorForm onSubmit={saveData}>
       <Box bgcolor="primary.main" color="primary.contrastText" p={2} mt={2} mb={2}>
@@ -67,11 +66,6 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
         label="LED State?"
       />
       <RgbSlider
-        setDataHandler={setData}
-        saveDataHandler={saveData}
-        data={data}
-      />
-      <RgbSettings
         setDataHandler={setData}
         saveDataHandler={saveData}
         data={data}

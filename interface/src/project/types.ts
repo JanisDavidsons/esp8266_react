@@ -14,3 +14,16 @@ export interface RgbState {
   green_value: number;
   blue_value: number;
 }
+
+interface Series {
+  name:string,
+  color:string,
+  type:string,
+  dragDrop: object,
+  visible:boolean,
+  data: [][]
+}
+
+export interface RgbOptions {
+  series: Series[]
+}
