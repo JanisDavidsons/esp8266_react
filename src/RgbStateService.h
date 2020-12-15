@@ -9,7 +9,7 @@
 #define LED_PIN 2
 #define PRINT_DELAY 5000
 
-#define DEFAULT_LED_STATE true
+#define DEFAULT_LED_STATE false
 #define DEFAULT_RED_VALUE 255
 #define DEFAULT_GREEN_VALUE 210
 #define DEFAULT_BLUE_VALUE 45
@@ -36,10 +36,10 @@
 
 class RgbState {
  public:
-  bool ledOn;
-  uint8_t redValue;
-  uint8_t greenValue;
-  uint8_t blueValue;
+  bool led_on;
+  uint8_t red_value;
+  uint8_t green_value;
+  uint8_t blue_value;
   CRGB leds[NUM_LEDS];
 
   // Class constructor
@@ -48,48 +48,61 @@ class RgbState {
   }
 
   static void read(RgbState& settings, JsonObject& root) {
-    Serial.println("RgbStateService read called..");
-    root["led_on"] = settings.ledOn;
-    root["red_value"] = settings.redValue;
-    root["green_value"] = settings.greenValue;
-    root["blue_value"] = settings.blueValue;
+    root["led_on"] = settings.led_on;
+    root["red_value"] = settings.red_value;
+    root["green_value"] = settings.green_value;
+    root["blue_value"] = settings.blue_value;
   }
 
   static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
+    
     boolean newState = root["led_on"] | DEFAULT_LED_STATE;
     int red = root["red_value"] | DEFAULT_RED_VALUE;
     int green = root["green_value"] | DEFAULT_GREEN_VALUE;
     int blue = root["blue_value"] | DEFAULT_BLUE_VALUE;
 
-    if (red != lightState.redValue || green != lightState.greenValue || blue != lightState.blueValue) {
-      lightState.redValue = red;
-      lightState.greenValue = green;
-      lightState.blueValue = blue;
-      lightState.updateRgbDriver();
+    bool onValueChanged = lightState.checkLightOnValue(newState);
+    bool rgbValueChanged = lightState.checkRgbValues(red, green, blue);
 
-      return StateUpdateResult::CHANGED;
-    }
-
-    if (lightState.ledOn != newState) {
-      if (lightState.ledOn) {
-        lightState.updateRgbDriver(true);
-        lightState.ledOn = newState;
-        return StateUpdateResult::CHANGED;
-      }
-      lightState.updateRgbDriver();
-      lightState.ledOn = newState;
+    if (onValueChanged || rgbValueChanged) {
       return StateUpdateResult::CHANGED;
     }
     return StateUpdateResult::UNCHANGED;
   }
 
+  bool checkRgbValues(int red, int green, int blue) {
+    if (red != this->red_value || green != this->green_value || blue != this->blue_value) {
+      this->red_value = red;
+      this->green_value = green;
+      this->blue_value = blue;
+      this->updateRgbDriver();
+      return true;
+    }
+    return false;
+  }
+
+  bool checkLightOnValue(bool onValue) {
+    if (this->led_on != onValue) {
+      
+      if (this->led_on) {
+        this->updateRgbDriver(true);
+        this->led_on = false;
+        return true;
+      }
+      this->updateRgbDriver();
+      this->led_on = true;
+      return true;
+    }
+    return false;
+  }
+
   void updateRgbDriver(bool turnOff = false) {
     if (turnOff) {
-        leds[0].fadeToBlackBy(255);
-        FastLED.show();
+      leds[0].fadeToBlackBy(255);
+      FastLED.show();
       return;
     }
-    leds[0].setRGB(this->redValue, this->greenValue, this->blueValue);
+    leds[0].setRGB(this->red_value, this->green_value, this->blue_value);
     FastLED.show();
   }
 };

@@ -24,7 +24,6 @@ class FSPersistence {
   }
 
   void readFromFS() {
-    Serial.println("FS read called..");
     File settingsFile = _fs->open(_filePath, "r");
 
     if (settingsFile) {
@@ -32,6 +31,13 @@ class FSPersistence {
       DeserializationError error = deserializeJson(jsonDocument, settingsFile);
       if (error == DeserializationError::Ok && jsonDocument.is<JsonObject>()) {
         JsonObject jsonObject = jsonDocument.as<JsonObject>();
+
+        char buffer[1000];
+
+        Serial.println("FS read called");
+        serializeJsonPretty(jsonDocument, buffer);
+        Serial.println(buffer);
+
         _statefulService->updateWithoutPropagation(jsonObject, _stateUpdater);
         settingsFile.close();
         return;
@@ -65,7 +71,7 @@ class FSPersistence {
     Serial.println(buffer);
 
     // serialize the data to the file
-    
+
     serializeJson(jsonDocument, settingsFile);
     settingsFile.close();
     return true;

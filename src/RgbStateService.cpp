@@ -21,19 +21,21 @@ RgbStateService::RgbStateService(AsyncWebServer* server, SecurityManager* securi
                    fs, 
                    "/config/RgbState.json") {
   // configure led to be output
-  pinMode(LED_PIN, OUTPUT);
+  // pinMode(LED_PIN, OUTPUT);
 
   // configure settings service update handler to update LED state
   addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);
 }
 
 void RgbStateService::begin() {
-  onConfigUpdated();
+  Serial.println("RgbStateService begin called..");
+  // onConfigUpdated();
+  _fsPersistence.readFromFS();
 }
 
 void RgbStateService::onConfigUpdated() {
   Serial.println("onConfigUpdated called ..");
-  _fsPersistence.readFromFS();
+  
 
 }
 
