@@ -28,15 +28,12 @@ RgbStateService::RgbStateService(AsyncWebServer* server, SecurityManager* securi
 }
 
 void RgbStateService::begin() {
-  Serial.println("RgbStateService begin called..");
   // onConfigUpdated();
   _fsPersistence.readFromFS();
 }
 
 void RgbStateService::onConfigUpdated() {
   Serial.println("onConfigUpdated called ..");
-  
-
 }
 
 void RgbStateService::registerConfig() {

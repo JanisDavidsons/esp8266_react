@@ -9,7 +9,7 @@ import RgbSettings from './components/RgbSettings';
 
 import { RgbOptions } from './types';
 
-export const RGB_SETTINGS_WEBSOCKET_URL = WEB_SOCKET_ROOT + "rgbOptions";
+export const RGB_SETTINGS_WEBSOCKET_URL = WEB_SOCKET_ROOT + "rgbCycle";
 
 type RgbStateWebSocketControllerProps = WebSocketControllerProps<RgbOptions>;
 

@@ -55,7 +55,6 @@ class RgbState {
   }
 
   static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
-    
     boolean newState = root["led_on"] | DEFAULT_LED_STATE;
     int red = root["red_value"] | DEFAULT_RED_VALUE;
     int green = root["green_value"] | DEFAULT_GREEN_VALUE;
@@ -72,6 +71,7 @@ class RgbState {
 
   bool checkRgbValues(int red, int green, int blue) {
     if (red != this->red_value || green != this->green_value || blue != this->blue_value) {
+      Serial.println("rgb value not the same..");
       this->red_value = red;
       this->green_value = green;
       this->blue_value = blue;
@@ -83,25 +83,33 @@ class RgbState {
 
   bool checkLightOnValue(bool onValue) {
     if (this->led_on != onValue) {
-      
+      Serial.println("on state is not the same...");
       if (this->led_on) {
-        this->updateRgbDriver(true);
         this->led_on = false;
+        this->updateRgbDriver(true);
         return true;
       }
-      this->updateRgbDriver();
       this->led_on = true;
+      this->updateRgbDriver();
       return true;
     }
     return false;
   }
 
   void updateRgbDriver(bool turnOff = false) {
+    Serial.println("rgb driver should update..");
+    Serial.println(this->led_on);
+    Serial.println(this->red_value);
+    Serial.println(this->green_value);
+    Serial.println(this->blue_value);
+
     if (turnOff) {
+      Serial.println("driver - turn off");
       leds[0].fadeToBlackBy(255);
       FastLED.show();
       return;
     }
+    Serial.println("driver - change color");
     leds[0].setRGB(this->red_value, this->green_value, this->blue_value);
     FastLED.show();
   }
