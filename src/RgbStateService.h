@@ -81,27 +81,36 @@ class RgbState {
     return false;
   }
 
+
+    return StateUpdateResult::UNCHANGED;
+  }
+
+  bool checkRgbValues(int red, int green, int blue) {
+    if (red != redValue || green != greenValue || blue != blueValue) {
+      redValue = red;
+      greenValue = green;
+      blueValue = blue;
+      updateRgbDriver();
+      return true;
+    }
+    return false;
+  }
+
   bool checkLightOnValue(bool onValue) {
-    if (this->led_on != onValue) {
-      Serial.println("on state is not the same...");
-      if (this->led_on) {
-        this->led_on = false;
-        this->updateRgbDriver(true);
+    if (ledOn != onValue) {
+      if (ledOn) {
+        ledOn = false;
+        updateRgbDriver(true);
         return true;
       }
-      this->led_on = true;
-      this->updateRgbDriver();
+      ledOn = true;
+      updateRgbDriver();
       return true;
     }
     return false;
   }
 
   void updateRgbDriver(bool turnOff = false) {
-    Serial.println("rgb driver should update..");
-    Serial.println(this->led_on);
-    Serial.println(this->red_value);
-    Serial.println(this->green_value);
-    Serial.println(this->blue_value);
 
     if (turnOff) {
       Serial.println("driver - turn off");
@@ -110,7 +119,7 @@ class RgbState {
       return;
     }
     Serial.println("driver - change color");
-    leds[0].setRGB(this->red_value, this->green_value, this->blue_value);
+    leds[0].setRGB(this->redValue, this->greenValue, this->blueValue);
     FastLED.show();
   }
 };
