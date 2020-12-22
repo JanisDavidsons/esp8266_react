@@ -37,9 +37,9 @@
 class RgbState {
  public:
   bool led_on;
-  uint8_t red_value;
-  uint8_t green_value;
-  uint8_t blue_value;
+  uint8_t redValue;
+  uint8_t greenValue;
+  uint8_t blueValue;
   CRGB leds[NUM_LEDS];
 
   // Class constructor
@@ -49,9 +49,9 @@ class RgbState {
 
   static void read(RgbState& settings, JsonObject& root) {
     root["led_on"] = settings.led_on;
-    root["red_value"] = settings.red_value;
-    root["green_value"] = settings.green_value;
-    root["blue_value"] = settings.blue_value;
+    root["red_value"] = settings.redValue;
+    root["green_value"] = settings.greenValue;
+    root["blue_value"] = settings.blueValue;
   }
 
   static StateUpdateResult update(JsonObject& root, RgbState& lightState) {
@@ -70,34 +70,21 @@ class RgbState {
   }
 
   bool checkRgbValues(int red, int green, int blue) {
-    if (red != this->red_value || green != this->green_value || blue != this->blue_value) {
+    if (red != this->redValue || green != this->greenValue || blue != this->blueValue) {
       Serial.println("rgb value not the same..");
-      this->red_value = red;
-      this->green_value = green;
-      this->blue_value = blue;
+      this->redValue = red;
+      this->greenValue = green;
+      this->blueValue = blue;
       this->updateRgbDriver();
       return true;
     }
     return false;
   }
-
-
     return StateUpdateResult::UNCHANGED;
   }
 
-  bool checkRgbValues(int red, int green, int blue) {
-    if (red != redValue || green != greenValue || blue != blueValue) {
-      redValue = red;
-      greenValue = green;
-      blueValue = blue;
-      updateRgbDriver();
-      return true;
-    }
-    return false;
-  }
-
   bool checkLightOnValue(bool onValue) {
-    if (ledOn != onValue) {
+    if (this->ledOn != onValue) {
       if (ledOn) {
         ledOn = false;
         updateRgbDriver(true);
