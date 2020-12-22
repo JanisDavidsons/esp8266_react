@@ -36,7 +36,7 @@
 
 class RgbState {
  public:
-  bool led_on;
+  bool ledOn;
   uint8_t redValue;
   uint8_t greenValue;
   uint8_t blueValue;
@@ -48,7 +48,7 @@ class RgbState {
   }
 
   static void read(RgbState& settings, JsonObject& root) {
-    root["led_on"] = settings.led_on;
+    root["led_on"] = settings.ledOn;
     root["red_value"] = settings.redValue;
     root["green_value"] = settings.greenValue;
     root["blue_value"] = settings.blueValue;
@@ -80,17 +80,15 @@ class RgbState {
     }
     return false;
   }
-    return StateUpdateResult::UNCHANGED;
-  }
 
   bool checkLightOnValue(bool onValue) {
     if (this->ledOn != onValue) {
-      if (ledOn) {
-        ledOn = false;
+      if (this->ledOn) {
+        this->ledOn = false;
         updateRgbDriver(true);
         return true;
       }
-      ledOn = true;
+      this->ledOn = true;
       updateRgbDriver();
       return true;
     }
@@ -98,7 +96,6 @@ class RgbState {
   }
 
   void updateRgbDriver(bool turnOff = false) {
-
     if (turnOff) {
       Serial.println("driver - turn off");
       leds[0].fadeToBlackBy(255);
@@ -106,7 +103,7 @@ class RgbState {
       return;
     }
     Serial.println("driver - change color");
-    leds[0].setRGB(this->redValue, this->greenValue, this->blueValue);
+    leds[0].setRGB(redValue, greenValue, blueValue);
     FastLED.show();
   }
 };
