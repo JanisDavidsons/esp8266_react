@@ -169,8 +169,10 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
   })
 
   const handleSubmit = () => {
-    setDataHandler(options.series, saveDataHandler)
-    console.log('rgb setting: ', options.series[0].data)
+    // setDataHandler({ data: options.series }, saveDataHandler)
+    setDataHandler({ data: "test Cycle data" }, saveDataHandler);
+
+    console.log('rgb setting: ', options.series)
   }
 
   const handleRadioChange = (event) => {

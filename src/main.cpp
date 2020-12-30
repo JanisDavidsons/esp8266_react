@@ -8,7 +8,7 @@ AsyncWebServer server(80);
 ESP8266React esp8266React(&server);
 
 RgbStateService rgbStateService = RgbStateService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
-// RgbCycleService rgbCycleService = RgbCycleService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
+RgbCycleService rgbCycleService = RgbCycleService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
 
 // update_handler_id_t updateHandler = rgbStateService.addUpdateHandler([&](const String& originId) {
 //   Serial.print("The light's state has been updated by: ");
@@ -26,7 +26,7 @@ void setup() {
 
   // load the initial RGB object
   rgbStateService.begin();
-  // rgbCycleService.begin();
+  rgbCycleService.begin();
 
   // start the server
   server.begin();

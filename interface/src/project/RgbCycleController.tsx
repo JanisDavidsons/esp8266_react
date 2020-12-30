@@ -11,9 +11,9 @@ import { RgbOptions } from './types';
 
 export const RGB_SETTINGS_WEBSOCKET_URL = WEB_SOCKET_ROOT + "rgbCycle";
 
-type RgbStateWebSocketControllerProps = WebSocketControllerProps<RgbOptions>;
+type RgbCycleControllerProps = WebSocketControllerProps<RgbOptions>;
 
-class RgbStateWebSocketController extends Component<RgbStateWebSocketControllerProps> {
+class RgbCycleController extends Component<RgbCycleControllerProps> {
 
     render() {
         return (
@@ -21,7 +21,7 @@ class RgbStateWebSocketController extends Component<RgbStateWebSocketControllerP
                 <WebSocketFormLoader
                     {...this.props}
                     render={props => (
-                        <RgbStateWebSocketControllerForm {...props} />
+                        <RgbCycleControllerForm {...props} />
                     )}
                 />
             </SectionContent>
@@ -29,11 +29,11 @@ class RgbStateWebSocketController extends Component<RgbStateWebSocketControllerP
     }
 }
 
-export default webSocketController(RGB_SETTINGS_WEBSOCKET_URL, 100, RgbStateWebSocketController);
+export default webSocketController(RGB_SETTINGS_WEBSOCKET_URL, 100, RgbCycleController);
 
-type RgbStateWebSocketControllerFormProps = WebSocketFormProps<RgbOptions>;
+type RgbCycleControllerFormProps = WebSocketFormProps<RgbOptions>;
 
-function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormProps) {
+function RgbCycleControllerForm(props: RgbCycleControllerFormProps) {
 
     const { data, saveData, setData } = props;
 

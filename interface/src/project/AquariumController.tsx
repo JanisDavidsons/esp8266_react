@@ -9,7 +9,7 @@ import { AuthenticatedRoute } from '../authentication';
 
 import DemoInformation from './Information';
 import RgbStateWebSocketController from './RgbStateWebSocketController';
-import RgbSettingsController from './RgbSettingsController';
+import RgbSettingsController from './RgbCycleController';
 
 class AquariumController extends Component<RouteComponentProps> {
 

@@ -4,7 +4,7 @@
 #include <HttpEndpoint.h>
 #include <WebSocketTxRx.h>
 #include <FSPersistence.h>
-#include <FastLED.h>
+#include <RgbDriver.h>
 
 #ifdef ESP32
 #define LED_ON 0x1
@@ -13,10 +13,6 @@
 #define LED_ON 0x0
 #define LED_OFF 0x1
 
-#define NUM_LEDS 1
-#define CLOCK_PIN 14  // D5
-#define DATA_PIN 12   // D6
-
 #endif
 
 #define RGB_CYCLE_ENDPOINT_PATH "/rest/rgbCycle"
@@ -24,25 +20,23 @@
 
 class RgbCycleState {
  public:
-  bool test;
+  RgbDriver* driver;
   
-  CRGB leds[NUM_LEDS];
-
   // Class constructor
   RgbCycleState() {
-    FastLED.addLeds<P9813, DATA_PIN, CLOCK_PIN>(leds, NUM_LEDS);
+    driver = driver->getInstance();
   }
 
     static void read(RgbCycleState& settings, JsonObject& root) {
-
+      // Serial.println("Cycle read...");
+      //todo Implement read functionalty
   }
 
   static StateUpdateResult update(JsonObject& root, RgbCycleState& rgbCycleState) {
-    
-      Serial.println("Rgb cycle update...");
-      Serial.println(root);
+      const char* data = root["data"];
+      Serial.println("Cycle update...");
+      Serial.println(data);
       
-
     return StateUpdateResult::CHANGED;
   }
 };

@@ -19,12 +19,13 @@ RgbCycleService::RgbCycleService(AsyncWebServer* server, SecurityManager* securi
                    RgbCycleState::update, 
                    this, 
                    fs, 
-                   "/config/RgbState.json") {
+                   "/config/RgbCycle.json") {
 
   // add event listener for rgbCycle Object
   //addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);
 }
 
 void RgbCycleService::begin(){
+    Serial.println("Cycle begin ...");
     _fsPersistence.readFromFS();
 }
