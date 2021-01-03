@@ -19,7 +19,8 @@ RgbCycleService::RgbCycleService(AsyncWebServer* server, SecurityManager* securi
                    RgbCycleState::update, 
                    this, 
                    fs, 
-                   "/config/RgbCycle.json") {
+                   "/config/RgbCycle.json",
+                   4096) {
 
   // add event listener for rgbCycle Object
   //addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);

@@ -63,10 +63,10 @@ class RgbState {
   }
 
   bool checkRgbValues(int red, int green, int blue) {
-    if (red != this->redValue || green != this->greenValue || blue != this->blueValue) {
-      this->redValue = red;
-      this->greenValue = green;
-      this->blueValue = blue;
+    if (red != redValue || green != greenValue || blue != blueValue) {
+      redValue = red;
+      greenValue = green;
+      blueValue = blue;
       driver->updateRgb(red, green, blue);
       return true;
     }
@@ -74,13 +74,13 @@ class RgbState {
   }
 
   bool checkLightOnValue(bool onValue) {
-    if (this->ledOn != onValue) {
-      if (this->ledOn) {
-        this->ledOn = false;
+    if (ledOn != onValue) {
+      if (ledOn) {
+        ledOn = false;
         driver->turnOff();
         return true;
       }
-      this->ledOn = true;
+      ledOn = true;
       driver->updateRgb(redValue, greenValue, blueValue);
       return true;
     }

@@ -6,7 +6,6 @@ import { FormActions, FormButton } from '../../components';
 import { Radio, RadioGroup, FormControl, FormLabel, FormControlLabel, } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 
-
 HC_more(Highcharts);
 require("highcharts/modules/draggable-points")(Highcharts);
 
@@ -169,10 +168,43 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
   })
 
   const handleSubmit = () => {
-    // setDataHandler({ data: options.series }, saveDataHandler)
-    setDataHandler({ data: "test Cycle data" }, saveDataHandler);
+    let result = { red: [], green: [], blue: [] };
 
-    console.log('rgb setting: ', options.series)
+    let conv = arr => arr.map(v => Array.isArray(v) ? conv(v) : String(v) || 0);
+
+    options.series.map(color => {
+      color.data.map(value => {
+        result[color.color].push(value[1].toString())
+      })
+    });
+    // options.series[0].data.forEach(element => {
+    //   result["red"].push(element[1].toString())
+    //   result["blue"].push(element[1].toString())
+
+    // })
+    console.log(result)
+    console.log("data from api before: ", data);
+
+
+    setDataHandler({
+      graph: { red: result.red }
+    }, saveDataHandler);
+
+    setTimeout(() => {
+      setDataHandler({
+        graph: { green: result.green }
+      }, saveDataHandler);
+    }, 500)
+
+    setTimeout(() => {
+      setDataHandler({
+        graph: { blue: result.blue }
+      }, saveDataHandler);
+    }, 500)
+
+    // console.log('rgb setting: ', options.series)
+    // console.log("stringified array : ", result)
+    console.log("data from api after: ", data);
   }
 
   const handleRadioChange = (event) => {

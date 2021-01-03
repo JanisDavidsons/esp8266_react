@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 
-import { Typography, Box, Switch } from '@material-ui/core';
+import {Switch } from '@material-ui/core';
 import { WEB_SOCKET_ROOT } from '../api';
 import { WebSocketControllerProps, WebSocketFormLoader, WebSocketFormProps, webSocketController } from '../components';
-import { SectionContent, BlockFormControlLabel } from '../components';
+import { SectionContent} from '../components';
 import RgbSettings from './components/RgbSettings';
 
 import { RgbOptions } from './types';
@@ -36,6 +35,7 @@ type RgbCycleControllerFormProps = WebSocketFormProps<RgbOptions>;
 function RgbCycleControllerForm(props: RgbCycleControllerFormProps) {
 
     const { data, saveData, setData } = props;
+    console.log(data);
 
     return (
         <RgbSettings
