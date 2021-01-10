@@ -35,7 +35,6 @@ type RgbCycleControllerFormProps = WebSocketFormProps<RgbOptions>;
 function RgbCycleControllerForm(props: RgbCycleControllerFormProps) {
 
     const { data, saveData, setData } = props;
-    console.log(data);
 
     return (
         <RgbSettings

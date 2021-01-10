@@ -33,7 +33,6 @@ class RgbCycleState {
   }
 
   static void read(RgbCycleState& settings, JsonObject& root) {
-
     root.createNestedObject("graph");
     root["graph"].createNestedArray("red");
     root["graph"].createNestedArray("green");
@@ -41,11 +40,13 @@ class RgbCycleState {
 
     for (size_t i = 0; i < 49; i++) {
       root["graph"]["red"].add(settings.red[i]);
-      root["graph"]["green"].add(settings.green[i]);
-      root["graph"]["blue"].add(settings.blue[i]);
+      // root["graph"]["green"].add(settings.green[i]);
+      // root["graph"]["blue"].add(settings.blue[i]);
 
       // Serial.println(settings.red[i]);
     }
+
+    Serial.println("api read called...");
 
     // for (const int& value : settings.red) {
     //   root["graph"]["red"].add(value);

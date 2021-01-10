@@ -9,7 +9,7 @@ import SaveIcon from '@material-ui/icons/Save';
 HC_more(Highcharts);
 require("highcharts/modules/draggable-points")(Highcharts);
 
-export default ({ setDataHandler, saveDataHandler, data }) => {
+export default ({ setDataHandler, saveDataHandler, data: colorData }) => {
 
   const [selectedColor, setSelectedColor] = useState('red');
 
@@ -117,9 +117,11 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
         visible: true,
 
         data: (function () {
-          var data = []
+          let data = []
+          let index = 0;
           for (let i = Date.UTC(2020, 0, 1, -2, 0, 0); i <= Date.UTC(2020, 0, 2, -2, 0, 0); i += 3600 * 500) {
-            data.push([i, Math.round(Math.random() * 255)]);
+            data.push({ x: i, y: colorData.graph.red[index] });
+            index++;
           }
 
           return data;
@@ -139,7 +141,7 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
           var data = []
 
           for (let i = Date.UTC(2020, 0, 1, -2, 0, 0); i <= Date.UTC(2020, 0, 2, -2, 0, 0); i += 3600 * 500) {
-            data.push([i, Math.round(Math.random() * 255)]);
+            data.push({ x: i, y: 150 });
           }
 
           return data;
@@ -158,7 +160,8 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
         data: (function () {
           var data = []
           for (let i = Date.UTC(2020, 0, 1, -2, 0, 0); i <= Date.UTC(2020, 0, 2, -2, 0, 0); i += 3600 * 500) {
-            data.push([i, Math.round(Math.random() * 255)]);
+            data.push({ x: i, y: 100 });
+            // Math.round(Math.random() * 255)
           }
 
           return data;
@@ -167,6 +170,13 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
     ]
   })
 
+  useEffect(() => {
+    const redData = colorData.graph.red;
+    for (let index = 0; index < redData.length; index++) {
+      options.series[0].data[index][1] = redData[index]
+    }
+  }, [])
+
   const handleSubmit = () => {
     let result = { red: [], green: [], blue: [] };
 
@@ -174,37 +184,13 @@ export default ({ setDataHandler, saveDataHandler, data }) => {
 
     options.series.map(color => {
       color.data.map(value => {
-        result[color.color].push(value[1].toString())
+        result[color.color].push(Math.round(value.y).toString())
       })
     });
-    // options.series[0].data.forEach(element => {
-    //   result["red"].push(element[1].toString())
-    //   result["blue"].push(element[1].toString())
-
-    // })
-    console.log(result)
-    console.log("data from api before: ", data);
-
 
     setDataHandler({
       graph: { red: result.red }
     }, saveDataHandler);
-
-    setTimeout(() => {
-      setDataHandler({
-        graph: { green: result.green }
-      }, saveDataHandler);
-    }, 500)
-
-    setTimeout(() => {
-      setDataHandler({
-        graph: { blue: result.blue }
-      }, saveDataHandler);
-    }, 500)
-
-    // console.log('rgb setting: ', options.series)
-    // console.log("stringified array : ", result)
-    console.log("data from api after: ", data);
   }
 
   const handleRadioChange = (event) => {
