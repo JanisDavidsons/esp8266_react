@@ -34,6 +34,7 @@ class RgbState {
   uint8_t greenValue;
   uint8_t blueValue;
   RgbDriver* driver;
+  time_t time;
 
   // Class constructor
   RgbState() {
@@ -61,6 +62,10 @@ class RgbState {
     }
     return StateUpdateResult::UNCHANGED;
   }
+
+  // static int getColorValues(){
+  //   Serial.println(redValue);
+  // }
 
   bool checkRgbValues(int red, int green, int blue) {
     if (red != redValue || green != greenValue || blue != blueValue) {

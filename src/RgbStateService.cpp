@@ -36,6 +36,8 @@ void RgbStateService::onConfigUpdated() {
   Serial.println("onConfigUpdated called ..");
 }
 
+
+
 void RgbStateService::registerConfig() {
   String configTopic;
   String subTopic;

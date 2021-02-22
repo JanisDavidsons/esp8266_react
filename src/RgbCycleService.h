@@ -6,14 +6,6 @@
 #include <FSPersistence.h>
 #include <RgbDriver.h>
 
-#ifdef ESP32
-#define LED_ON 0x1
-#define LED_OFF 0x0
-#elif defined(ESP8266)
-#define LED_ON 0x0
-#define LED_OFF 0x1
-
-#endif
 
 #define RGB_CYCLE_ENDPOINT_PATH "/rest/rgbCycle"
 #define RGB_CYCLE_SOCKET_PATH "/ws/rgbCycle"
@@ -40,6 +32,7 @@ class RgbCycleState {
 
     for (size_t i = 0; i < 49; i++) {
       root["graph"]["red"].add(settings.red[i]);
+
       // root["graph"]["green"].add(settings.green[i]);
       // root["graph"]["blue"].add(settings.blue[i]);
 

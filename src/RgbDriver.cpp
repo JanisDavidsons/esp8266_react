@@ -1,5 +1,7 @@
 #include <RgbDriver.h>
 #include <FastLED.h>
+#include <TimeLib.h>
+#include <TimeAlarms.h>
 
 RgbDriver* RgbDriver::pInstance = 0;
 
@@ -17,7 +19,16 @@ void RgbDriver::updateRgb(int red, int green, int blue) {
   FastLED.show();
 }
 
-void RgbDriver::turnOff(){
-    pInstance->leds[0].fadeToBlackBy(255);
-    FastLED.show();
+void RgbDriver::updateRgb() {
+  Serial.println(timeStatus());
+  FastLED.show();
+}
+
+void RgbDriver::test() {
+  // Serial.println("test");
+}
+
+void RgbDriver::turnOff() {
+  pInstance->leds[0].setRGB(0, 0, 0);
+  FastLED.show();
 }

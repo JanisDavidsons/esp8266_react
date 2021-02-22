@@ -15,18 +15,12 @@ RgbCycleService::RgbCycleService(AsyncWebServer* server, SecurityManager* securi
                RGB_CYCLE_SOCKET_PATH,
                securityManager,
                AuthenticationPredicates::IS_AUTHENTICATED),
-    _fsPersistence(RgbCycleState::read, 
-                   RgbCycleState::update, 
-                   this, 
-                   fs, 
-                   "/config/RgbCycle.json",
-                   4096) {
-
+    _fsPersistence(RgbCycleState::read, RgbCycleState::update, this, fs, "/config/RgbCycle.json", 4096) {
   // add event listener for rgbCycle Object
-  //addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);
+  // addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);
 }
 
-void RgbCycleService::begin(){
-    Serial.println("Cycle begin ...");
-    _fsPersistence.readFromFS();
+void RgbCycleService::begin() {
+  Serial.println("Cycle begin ...");
+  _fsPersistence.readFromFS();
 }

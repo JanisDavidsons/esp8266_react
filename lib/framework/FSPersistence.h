@@ -33,7 +33,7 @@ class FSPersistence {
         JsonObject jsonObject = jsonDocument.as<JsonObject>();
 
         Serial.println("FS read called");
-        serializeJsonPretty(jsonDocument, Serial);
+        // serializeJsonPretty(jsonDocument, Serial);
 
         _statefulService->updateWithoutPropagation(jsonObject, _stateUpdater);
         settingsFile.close();
@@ -62,7 +62,7 @@ class FSPersistence {
     }
 
     Serial.println("FS write called");
-    serializeJsonPretty(jsonDocument, Serial);
+    // serializeJsonPretty(jsonDocument, Serial);
 
     // serialize the data to the file
 

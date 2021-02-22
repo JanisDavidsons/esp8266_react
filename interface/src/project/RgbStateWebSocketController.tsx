@@ -47,7 +47,7 @@ function RgbStateWebSocketControllerForm(props: RgbStateWebSocketControllerFormP
       },
       saveData);
   }
-  console.log(data);
+  
   return (
     <ValidatorForm onSubmit={saveData}>
       <Box bgcolor="primary.main" color="primary.contrastText" p={2} mt={2} mb={2}>

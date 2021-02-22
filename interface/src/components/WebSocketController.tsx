@@ -62,6 +62,7 @@ export function webSocketController<D, P extends WebSocketControllerProps<D>>(ws
       }
 
       onMessage = (event: MessageEvent) => {
+        console.log("incoming web socket message : ", event.data);
         const rawData = event.data;
         if (typeof rawData === 'string' || rawData instanceof String) {
           this.handleMessage(JSON.parse(rawData as string) as WebSocketMessage<D>);
