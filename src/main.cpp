@@ -55,8 +55,6 @@ void loop() {
 }
 
 void turnLightsOff() {
-  Serial.print("Led off called... ");
-
   rgbStateService.update(
       [&](RgbState& state) {
         if (state.ledOn) {
@@ -70,8 +68,6 @@ void turnLightsOff() {
 }
 
 void turnLightsOn() {
-  Serial.println("Led on called..");
-
   rgbStateService.update(
       [&](RgbState& state) {
         if (!state.ledOn) {
