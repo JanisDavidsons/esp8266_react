@@ -15,13 +15,7 @@ RgbStateService::RgbStateService(AsyncWebServer* server, SecurityManager* securi
                RGB_SETTINGS_SOCKET_PATH,
                securityManager,
                AuthenticationPredicates::IS_AUTHENTICATED),
-    _fsPersistence(RgbState::read, 
-                   RgbState::update, 
-                   this, 
-                   fs, 
-                   "/config/RgbState.json") {
-  // configure led to be output
-  // pinMode(LED_PIN, OUTPUT);
+    _fsPersistence(RgbState::read, RgbState::update, this, fs, "/config/RgbState.json") {
 
   // configure settings service update handler to update LED state
   addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);
@@ -35,8 +29,6 @@ void RgbStateService::begin() {
 void RgbStateService::onConfigUpdated() {
   Serial.println("onConfigUpdated called ..");
 }
-
-
 
 void RgbStateService::registerConfig() {
   String configTopic;

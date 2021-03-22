@@ -20,12 +20,7 @@ void RgbDriver::updateRgb(int red, int green, int blue) {
 }
 
 void RgbDriver::updateRgb() {
-  Serial.println(timeStatus());
   FastLED.show();
-}
-
-void RgbDriver::test() {
-  // Serial.println("test");
 }
 
 void RgbDriver::turnOff() {

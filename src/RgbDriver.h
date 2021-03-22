@@ -13,13 +13,11 @@ class RgbDriver {
   static void updateRgb(int red, int blue, int green);
   static void updateRgb();
   static void turnOn();
-  static void test();
   static void turnOff();
   static RgbDriver* getInstance();
-  int data;
 
  private:
-    static RgbDriver* pInstance;
+  static RgbDriver* pInstance;
 };
 
 #endif
