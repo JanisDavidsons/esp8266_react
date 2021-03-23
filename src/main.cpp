@@ -1,7 +1,9 @@
 #include <ESP8266React.h>
 #include <RgbStateService.h>
 #include <RgbCycleService.h>
-#include <RedService.h>
+#include "./colorService/RedService.h"
+#include "./colorService/GreenService.h"
+#include "./colorService/BlueService.h"
 #include <TimeAlarms.h>
 
 #define SERIAL_BAUD_RATE 115200
@@ -12,7 +14,8 @@ ESP8266React esp8266React(&server);
 RgbStateService rgbStateService = RgbStateService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
 RgbCycleService rgbCycleService = RgbCycleService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
 RedService redService = RedService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
-
+GreenService greenService = GreenService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
+BlueService blueService = BlueService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
 
 // update_handler_id_t updateHandler = rgbCycleService.addUpdateHandler([&](const String& originId) {
 //   Serial.print("The RgbCycle's state has been updated by: ");
@@ -36,6 +39,8 @@ void setup() {
   rgbStateService.begin();
   rgbCycleService.begin();
   redService.begin();
+  greenService.begin();
+  blueService.begin();
 
   // start the server
   server.begin();
@@ -85,8 +90,7 @@ void turnLightsOn() {
 }
 
 void onEverySecond() {
-
-    if (!isTimeSet && currentSecond > trigerTime) {
+  if (!isTimeSet && currentSecond > trigerTime) {
     Serial.println("Setting time...");
     time_t now = time(nullptr);
     tm* timeinfo = localtime(&now);
@@ -102,11 +106,11 @@ void onEverySecond() {
     isTimeSet = true;
   }
 
-  if(!isTimeSet){
-    currentSecond ++;
+  if (!isTimeSet) {
+    currentSecond++;
   }
 
-    rgbCycleService.update(
+  rgbCycleService.update(
       [&](RgbCycleState& state) {
         Serial.println(state.red[22]);
         return StateUpdateResult::CHANGED;  // notify StatefulService by returning CHANGED
