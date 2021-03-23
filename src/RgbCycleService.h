@@ -107,12 +107,11 @@ class RgbCycleState {
 class RgbCycleService : public StatefulService<RgbCycleState> {
  public:
   RgbCycleService(AsyncWebServer* server, SecurityManager* securityManager, FS* fs);
-
   void begin();
 
  private:
-  HttpEndpoint<RgbCycleState> _httpEndpoint;
   WebSocketTxRx<RgbCycleState> _webSocket;
+  HttpEndpoint<RgbCycleState> _httpEndpoint;
   FSPersistence<RgbCycleState> _fsPersistence;
 
   void registerConfig();

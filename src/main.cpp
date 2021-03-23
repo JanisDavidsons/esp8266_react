@@ -1,6 +1,7 @@
 #include <ESP8266React.h>
 #include <RgbStateService.h>
 #include <RgbCycleService.h>
+#include <RedService.h>
 #include <TimeAlarms.h>
 
 #define SERIAL_BAUD_RATE 115200
@@ -10,6 +11,8 @@ ESP8266React esp8266React(&server);
 
 RgbStateService rgbStateService = RgbStateService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
 RgbCycleService rgbCycleService = RgbCycleService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
+RedService redService = RedService(&server, esp8266React.getSecurityManager(), esp8266React.getFS());
+
 
 // update_handler_id_t updateHandler = rgbCycleService.addUpdateHandler([&](const String& originId) {
 //   Serial.print("The RgbCycle's state has been updated by: ");
@@ -32,6 +35,7 @@ void setup() {
   // load the initial RGB object
   rgbStateService.begin();
   rgbCycleService.begin();
+  redService.begin();
 
   // start the server
   server.begin();
@@ -101,6 +105,13 @@ void onEverySecond() {
   if(!isTimeSet){
     currentSecond ++;
   }
+
+    rgbCycleService.update(
+      [&](RgbCycleState& state) {
+        Serial.println(state.red[22]);
+        return StateUpdateResult::CHANGED;  // notify StatefulService by returning CHANGED
+      },
+      "timer");
 
   RgbDriver::updateRgb();
 }

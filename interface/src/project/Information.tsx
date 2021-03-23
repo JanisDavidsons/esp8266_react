@@ -8,64 +8,29 @@ class DemoInformation extends Component {
     return (
       <SectionContent title='Information' titleGutter>
         <Typography variant="body1" paragraph>
-          This simple demo project allows you to control the built-in LED.
-          It demonstrates how the esp8266-react framework may be extended for your own IoT project.
+          This interface allows you to control the aquarium lights.
         </Typography>
         <Typography variant="body1" paragraph>
-          It is recommended that you keep your project interface code under the project directory.
-          This serves to isolate your project code from the from the rest of the user interface which should
-          simplify merges should you wish to update your project with future framework changes.
-        </Typography>
-        <Typography variant="body1" paragraph>
-          The demo project interface code is stored in the 'interface/src/project' directory:
-        </Typography>        
+          It is still in development process and new features are being added on regular basis.
+        </Typography>      
         <List>
           <ListItem>
             <ListItemText
-              primary="ProjectMenu.tsx"
-              secondary="You can add your project's screens to the side bar here."
+              primary="RGB controller"
+              secondary="You can adjust intensity for red, blue and green colors."
             />
           </ListItem>
           <ListItem>
             <ListItemText
-              primary="ProjectRouting.tsx"
-              secondary="The routing which controls the screens of your project."
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="DemoProject.tsx"
-              secondary="This screen, with tabs and tab routing."
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="DemoInformation.tsx"
-              secondary="The demo information page."
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="LightStateRestController.tsx"
-              secondary="A form which lets the user control the LED over a REST service."
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="LightStateWebSocketController.tsx"
-              secondary="A form which lets the user control and monitor the status of the LED over WebSockets."
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="LightMqttSettingsController.tsx"
-              secondary="A form which lets the user change the MQTT settings for MQTT based control of the LED."
+              primary="RGB settings"
+              secondary="Here you can adjust light auto cycle settings. It simulates 24 hour day/night enviroument and 
+                        change each color based on time."
             />
           </ListItem>
         </List>
         <Box mt={2}>
           <Typography variant="body1">
-            See the project <a href="https://github.com/rjwats/esp8266-react/">README</a> for a full description of the demo project.
+            See my projects <a href="https://github.com/JanisDavidsons">at github</a> .
           </Typography>
         </Box>
       </SectionContent>
