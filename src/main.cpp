@@ -110,12 +110,12 @@ void onEverySecond() {
     currentSecond++;
   }
 
-  rgbCycleService.update(
-      [&](RgbCycleState& state) {
-        Serial.println(state.red[22]);
-        return StateUpdateResult::CHANGED;  // notify StatefulService by returning CHANGED
-      },
-      "timer");
+  // rgbCycleService.update(
+  //     [&](RgbCycleState& state) {
+  //       Serial.println(state.red[22]);
+  //       return StateUpdateResult::CHANGED;  // notify StatefulService by returning CHANGED
+  //     },
+  //     "timer");
 
   RgbDriver::updateRgb();
 }

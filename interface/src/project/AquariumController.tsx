@@ -28,7 +28,8 @@ class AquariumController extends Component<RouteComponentProps> {
         <Switch>
           <AuthenticatedRoute exact path={`/${PROJECT_PATH}/information`} component={DemoInformation} />
           <AuthenticatedRoute exact path={`/${PROJECT_PATH}/rgb`} component={RgbStateWebSocketController} />
-          <AuthenticatedRoute exact path={`/${PROJECT_PATH}/rgbSettings`} component={RgbCycleController} />
+          <AuthenticatedRoute component={RgbCycleController} />
+          
           <Redirect to={`/${PROJECT_PATH}/information`} />
         </Switch>
       </MenuAppBar>
